@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="file" id="file" multiple>
+  <br><br>
+  <input type="time" id="time">
+  <br><br>
+  <select id="select">
+    <option value="1">test</option>
+    <option value="2">sdfs</option>
+  </select>
+  <script>
+    // @ts-check
+    void (function () {
+      'use strict';
+      /**
+       * @typedef {object} ElList
+       * @property {HTMLInputElement} file
+       * @property {HTMLInputElement} time
+       * @property {HTMLSelectElement} select
+       */
+
+      /**
+       * @template {keyof ElList} K
+       * @param {K} id
+       * @returns {ElList[K]}
+       */
+      const getEl = (id) => {
+        return document.getElementById(id);
+      };
+
+      /** @type {ElList} */
+      const elList = new Proxy({}, {
+        get(target, prop) {
+          return document.getElementById(prop);
+        },
+      });
+
+      console.log(
+        {
+          getEl,
+          elList,
+        },
+        elList.file,
+        getEl('file'),
+      );
+    })()
+  </script>
+</body>
+
+</html>
